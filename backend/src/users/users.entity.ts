@@ -8,9 +8,12 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @Column({ default: 'User' }) // ❌ Single role only
-  role: string;
+  @Column('simple-json', { default: () => "'[]'" }) 
+  roles: string[];
 
-  @Column()
-  status: boolean;
+  @Column({
+    type: 'text',
+    default: 'Enabled',
+  })
+  status: 'Enabled' | 'Disabled' | 'Deleted';
 }

@@ -1,4 +1,4 @@
-import { Controller, NotFoundException, Param, Post } from '@nestjs/common';
+import { Controller, NotFoundException, Param, Post, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './users.entity';
 
@@ -13,7 +13,11 @@ export class UsersController {
     if (!user) {
       throw new NotFoundException(`The user - ${username} - not found`);
     }
-
+   
+    if (user.status === 'Deleted') {
+      throw new UnauthorizedException(`The user - ${username} - is deleted`);
+    }
+;
     return user;
   }
 }
